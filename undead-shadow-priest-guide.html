@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17151b">
+  <title>Undead Shadow Priest Field Guide — WoW Forever</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #17151b;
+      --panel: #211e27;
+      --panel-raised: #2a2631;
+      --line: #45404e;
+      --text: #f0eaf2;
+      --muted: #b7adbb;
+      --accent: #c28bd5;
+      --accent-soft: #372b3d;
+      --gold: #e3c58a;
+      --green: #9dc9a3;
+      --max: 1100px;
+      font: 16px/1.6 Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    a { color: #d7afe5; }
+    a:hover { color: #f0d9fa; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin-inline: auto; }
+    .masthead {
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font: 700 .78rem/1.2 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .masthead .wrap { display: flex; justify-content: space-between; padding-block: 16px; }
+    .brand { color: var(--text); letter-spacing: .1em; }
+    .hero { padding: clamp(42px, 8vw, 88px) 0 42px; }
+    .eyebrow, .kicker {
+      color: var(--accent);
+      font: 700 .75rem/1.4 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 { max-width: 780px; margin: 14px 0 20px; font-size: clamp(3rem, 8vw, 6.2rem); line-height: .96; letter-spacing: -.055em; font-weight: 500; }
+    .hero p { max-width: 760px; color: var(--muted); font-size: 1.12rem; }
+    .status-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 28px; color: var(--muted); font: .82rem/1.5 ui-sans-serif, system-ui, sans-serif; }
+    .status-row strong { color: var(--gold); letter-spacing: .08em; }
+    .notice { margin-top: 24px; padding: 14px 17px; border-left: 3px solid var(--gold); background: #2a251e; color: #e9dcc0; font-size: .94rem; }
+    .notice strong { color: var(--gold); }
+    .planner, .guide { margin: 30px auto; }
+    .controls { display: grid; grid-template-columns: minmax(200px, 1fr) auto; gap: 12px; align-items: center; }
+    .search, .level-input {
+      width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 6px;
+      background: var(--panel); color: var(--text);
+    }
+    .button {
+      padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px;
+      background: var(--panel-raised); cursor: pointer;
+    }
+    .button:hover { border-color: var(--accent); }
+    .progress { display: flex; justify-content: space-between; gap: 12px; margin: 14px 0 24px; color: var(--muted); font: .85rem ui-sans-serif, system-ui, sans-serif; }
+    .progress-track { height: 5px; margin-top: -15px; margin-bottom: 24px; overflow: hidden; border-radius: 8px; background: var(--panel-raised); }
+    .progress-fill { width: 0; height: 100%; background: var(--accent); transition: width .2s ease; }
+    .level-box { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+    .level-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font: .9rem ui-sans-serif, system-ui, sans-serif; }
+    .level-head strong { color: var(--accent); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .level-entry { display: flex; align-items: center; gap: 10px; margin-top: 9px; color: var(--muted); font: .83rem ui-sans-serif, system-ui, sans-serif; }
+    .level-input { width: 76px; padding: 7px 9px; }
+    .snapshot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .snapshot h2 { margin: 0 0 10px; font-size: 1.25rem; font-weight: 500; }
+    dl { display: grid; grid-template-columns: 130px 1fr; gap: 8px 14px; margin: 0; }
+    dt { color: var(--gold); }
+    dd { margin: 0; color: var(--muted); }
+    .route-list { display: grid; gap: 9px; margin-top: 18px; }
+    details.route { border: 1px solid var(--line); border-radius: 7px; background: var(--panel); }
+    details.route[hidden] { display: none; }
+    details.route summary { display: flex; align-items: center; gap: 12px; padding: 13px 15px; cursor: pointer; list-style: none; }
+    details.route summary::-webkit-details-marker { display: none; }
+    details.route summary::before { content: "+"; color: var(--accent); font: 1.2rem ui-sans-serif, system-ui, sans-serif; }
+    details.route[open] summary::before { content: "−"; }
+    details.route summary strong { flex: 1; font-weight: 500; }
+    .zone-check { width: 17px; height: 17px; accent-color: var(--accent); }
+    .route-body { padding: 0 18px 17px 45px; color: var(--muted); }
+    .route-body p { margin: 8px 0; }
+    .route-body strong { color: var(--text); }
+    .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .tab {
+      flex: 0 0 auto; padding: 9px 13px; border: 0; border-radius: 6px 6px 0 0;
+      background: transparent; color: var(--muted); cursor: pointer;
+    }
+    .tab[aria-selected="true"] { background: var(--accent-soft); color: var(--text); }
+    .tabpanel { padding: clamp(18px, 4vw, 30px); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 8px 8px; background: var(--panel); }
+    .tabpanel h2 { margin: 4px 0 12px; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 500; }
+    .tabpanel h3 { margin: 24px 0 8px; color: var(--gold); font-size: 1.1rem; }
+    .tabpanel p, .tabpanel li { color: var(--muted); }
+    .tabpanel strong { color: var(--text); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--gold); font: 700 .79rem ui-sans-serif, system-ui, sans-serif; }
+    td { color: var(--muted); }
+    code { padding: 2px 5px; border-radius: 4px; background: #17141b; color: #e0bce9; font: .9em ui-monospace, monospace; }
+    pre { overflow-x: auto; padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: #17141b; color: #e0bce9; }
+    .footer { margin-top: 45px; padding: 22px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font: .78rem ui-sans-serif, system-ui, sans-serif; }
+    .footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; }
+    @media (max-width: 620px) {
+      .controls { grid-template-columns: 1fr; }
+      .controls .button { justify-self: start; }
+      dl { grid-template-columns: 1fr; gap: 2px; }
+      dd { margin-bottom: 8px; }
+      details.route summary { gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap"><span class="brand">✦ &nbsp; Field Notes / Forsaken</span><span>Leveling log</span></div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Undead · Shadow · Levels 1–60</div>
+      <h1 id="page-title">A priest’s road to sixty.</h1>
+      <p>A practical Horde leveling field guide for an Undead Shadow Priest: a Tirisfal-first route, a Classic-baseline talent path, spell-training priorities, gear, macros, and a mana-conscious rotation.</p>
+      <div class="status-row"><strong>FOREVER BETA CHECK</strong><span>Classic priest baseline</span><span>Custom talents and tuning not independently confirmed</span></div>
+      <aside class="notice"><strong>Version note.</strong> The talent path and spell advice below use the familiar WoW Classic priest tree as a baseline. WoW Forever may change talents, ranks, or class tuning; verify the live Priest calculator and trainers before treating point-by-point checkpoints as final.</aside>
+    </section>
+
+    <section class="planner" aria-label="Route planner">
+      <div class="controls">
+        <input id="route-search" class="search" type="search" placeholder="Find a zone or level" aria-label="Find a zone or level">
+        <button id="remaining-toggle" class="button" type="button">Show remaining</button>
+      </div>
+      <div class="progress"><span id="progress-label">0 / 8 zones complete</span><span id="progress-percent">0%</span></div>
+      <div class="progress-track" role="progressbar" aria-label="Zones completed" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><div class="progress-fill"></div></div>
+
+      <div class="level-box">
+        <div class="level-head"><label for="level-range">Jump to your character level</label><strong id="level-status">Level 1</strong></div>
+        <input id="level-range" type="range" min="1" max="60" value="1" aria-label="Choose character level">
+        <div class="level-entry"><label for="level-number">Enter level</label><input id="level-number" class="level-input" type="number" min="1" max="60" value="1"></div>
+        <div class="snapshot" aria-live="polite">
+          <h2 id="snapshot-title">Tirisfal Glades · Levels 1–10</h2>
+          <dl>
+            <dt>Next talent</dt><dd id="snapshot-talent"></dd>
+            <dt>Train / unlock</dt><dd id="snapshot-train"></dd>
+            <dt>Gear focus</dt><dd id="snapshot-gear"></dd>
+            <dt>Play this level</dt><dd id="snapshot-play"></dd>
+          </dl>
+        </div>
+      </div>
+
+      <div id="route-list" class="route-list" aria-label="Horde leveling route"></div>
+    </section>
+
+    <section class="guide" aria-label="Undead Shadow Priest guide">
+      <div class="tabs" role="tablist" aria-label="Guide sections"></div>
+      <div id="tab-content" class="tabpanel" role="tabpanel" tabindex="0"></div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap"><span>FIELD NOTES · FORSAKEN PRIEST</span><span>Route progress is saved in this browser.</span></div></footer>
+
+  <script>
+    const zones = [
+      {
+        id: "tirisfal", from: 1, to: 10, name: "Tirisfal Glades",
+        talent: "At level 10, start with 5/5 Spirit Tap for strong recovery after killing a target that grants experience.",
+        train: "Learn Power Word: Shield, Shadow Word: Pain, Renew, Inner Fire, and Power Word: Fortitude as available. Pick up a wand early.",
+        gear: "Prioritize a usable wand, then Intellect, Spirit, and Stamina. A wand upgrade can be more valuable than another early spell rank.",
+        play: "Use a low-rank Smite or Shadow Word: Pain when useful, then wand. Avoid spending all your mana on every short-lived enemy.",
+        route: "Follow the Brill quest chain through the surrounding farms and ruins. Complete class quests and nearby hubs before moving south; return for trainer visits."
+      },
+      {
+        id: "silverpine", from: 10, to: 20, name: "Silverpine Forest",
+        talent: "Finish Spirit Tap, then invest in the Shadow tree; keep your early points focused on reliable damage and mana sustain.",
+        train: "Train new ranks of Shadow Word: Pain, Mind Blast, Shield, Renew, and Fortitude when the upgrade is worthwhile.",
+        gear: "Keep your wand current. Prefer Spirit and Intellect; take Shadow damage or spell power when it does not cost too much survivability.",
+        play: "Apply Shadow Word: Pain to targets that will live for most of its duration, then wand. Use Mind Blast selectively to avoid excess threat and downtime.",
+        route: "Work the Sepulcher quest hub and nearby camps. The forest has caves and close-packed enemies; avoid pulling several while your gear and mana pool are still small."
+      },
+      {
+        id: "hillsbrad", from: 20, to: 30, name: "Hillsbrad Foothills",
+        talent: "Continue the Shadow path toward Mind Flay and the upper tiers. Mind Flay becomes a core spell once trained.",
+        train: "Train Mind Flay at its available level, plus fresh ranks of Mind Blast, Shadow Word: Pain, Shield, and Inner Fire.",
+        gear: "A strong wand remains excellent. Upgrade weapon damage first; then balance Intellect, Spirit, Stamina, and Shadow damage.",
+        play: "Use Mind Flay to finish or control a target after the DoT; do not channel it through a mob that is about to die. Keep some mana for Shield or an emergency heal.",
+        route: "Use Tarren Mill and nearby quests as your base. Hillsbrad is contested and has dense camps; favor quests that do not require deep solo cave pulls."
+      },
+      {
+        id: "arathi", from: 30, to: 40, name: "Arathi Highlands & Alterac",
+        talent: "Build toward Shadowform at level 40 in the Classic tree; Shadowform requires 31 points in Shadow.",
+        train: "Keep Mind Flay, Mind Blast, Shadow Word: Pain, and defensive ranks current. Learn Vampiric Embrace when available for added sustain.",
+        gear: "Favor Shadow spell damage and Intellect, without neglecting Stamina. Replace your wand when the damage jump is meaningful.",
+        play: "Use Psychic Scream only with an escape path; fleeing enemies can add more mobs. Vampiric Embrace helps on sustained fights, but can raise threat in groups.",
+        route: "Mix Tarren Mill follow-ups with Hammerfall and Alterac quests as levels allow. Skip elite objectives unless grouped; move on when ordinary quests turn green."
+      },
+      {
+        id: "hinterlands-tanaris", from: 40, to: 50, name: "The Hinterlands & Tanaris",
+        talent: "Take Shadowform at 40 if following the Classic baseline. Then fill the Shadow damage talents and useful Discipline support.",
+        train: "Train Shadowform-related ranks, Mind Flay, Mind Blast, and Shadow Word: Pain. Keep Inner Fire and Fortitude current.",
+        gear: "Now favor Shadow damage/spell power and Intellect. Keep a safe amount of Stamina; Spirit is useful between pulls but is not a substitute for damage.",
+        play: "In Shadowform, use Shadow Word: Pain, Mind Flay, and selective Mind Blast. Shadowform prevents most Holy spell casts; leave form before healing when needed.",
+        route: "Use Revantusk Village and Gadgetzan as hubs. Tanaris has a broad level spread, so follow quest levels rather than clearing every camp in one pass."
+      },
+      {
+        id: "felwood-ungoro", from: 50, to: 55, name: "Un’Goro Crater & Felwood",
+        talent: "Finish the core Shadow talents, then take utility or Discipline survivability points that fit your leveling style.",
+        train: "Visit a trainer before long trips. Pick up useful new ranks of your core damage, shield, and buff spells.",
+        gear: "Keep spell damage and Intellect high; use quest rewards that improve your wand or shadow damage. Do not trade away too much stamina for a small stat gain.",
+        play: "Use Cannibalize after a safe humanoid or undead kill to recover health; it does not restore mana. Spirit Tap can help mana recovery after eligible kills.",
+        route: "Follow Marshal’s Refuge quests in Un’Goro and the Emerald Sanctuary in Felwood. Both zones contain dangerous beast clusters; tag and pull deliberately."
+      },
+      {
+        id: "western-plaguelands", from: 55, to: 58, name: "Western Plaguelands",
+        talent: "At this point finish the preferred Shadow build, checking the live calculator if Forever has modified the tree.",
+        train: "Refresh core ranks and group utility such as Power Word: Fortitude, Dispel Magic, and resurrection as appropriate.",
+        gear: "Choose spell damage and Intellect for efficient kills; carry healing and mana consumables for long quest chains.",
+        play: "Use Power Word: Shield when a cast would otherwise be interrupted, not automatically on every pull. Keep Psychic Scream for a clear retreat.",
+        route: "Use the Bulwark for Horde quests. Avoid multi-mob pulls in the farms and around elites; this is a good zone to group for tougher chains."
+      },
+      {
+        id: "eastern-plaguelands", from: 58, to: 60, name: "Eastern Plaguelands & Winterspring",
+        talent: "Spend remaining points to complete your leveling build. For dungeon or raid use, check a separate level-60 build.",
+        train: "Make a final trainer visit and stock reagents, water, and consumables before finishing the last quest circuit.",
+        gear: "Keep your best spell-damage set, wand, and enough stamina for the higher-level undead and elite-adjacent quests.",
+        play: "Use Shadowguard-style custom abilities only if present in the live ruleset; otherwise stick to your known kit. Mind Control and fear effects need safe terrain.",
+        route: "Finish Horde quests at Light’s Hope Chapel, then use Winterspring as an alternative if EPL quests are too difficult or too contested."
+      }
+    ];
+
+    const tabs = [
+      {
+        id: "talents", label: "Talents", content: `
+          <div class="kicker">Recommended leveling build · Classic baseline</div>
+          <h2>Shadowform on the way to forty</h2>
+          <p>For solo leveling, the familiar Classic path takes early mana sustain, then builds through Shadow for <strong>Mind Flay</strong> and <strong>Shadowform</strong>. This is a baseline—not a claim that the WoW Forever tree is identical. If the live calculator differs, follow its prerequisites rather than forcing these checkpoints.</p>
+          <div class="table-wrap"><table><thead><tr><th>Level</th><th>Talent checkpoint</th><th>Why it matters</th></tr></thead><tbody>
+            <tr><td>10–14</td><td>5/5 Spirit Tap</td><td>Improves mana recovery after qualifying kills; a strong opening investment for solo leveling.</td></tr>
+            <tr><td>15–19</td><td>Continue in Shadow; take Shadow Focus and required lower-tier talents</td><td>Putting these points in Discipline instead improves wand damage but delays the Shadowform breakpoint.</td></tr>
+            <tr><td>20–39</td><td>Spend in Shadow; take Mind Flay and other useful talents as prerequisites allow</td><td>Keep all pre-40 points in Shadow to reach the 31-point Shadowform talent at level 40.</td></tr>
+            <tr><td>30–39</td><td>Continue Shadow: Mind Flay, Shadow Weaving / Darkness as available</td><td>Improve your core damage while accumulating the points required for Shadowform.</td></tr>
+            <tr><td>40</td><td>Shadowform</td><td>Major Shadow damage and mitigation payoff; most Holy spells require leaving form.</td></tr>
+            <tr><td>41–60</td><td>Finish Shadow, then add Discipline utility</td><td>Choose damage, survivability, or group utility based on the actual Forever talent tree.</td></tr>
+          </tbody></table></div>
+          <p><strong>Point-count check:</strong> classic talent points begin at level 10. Shadowform is a 31-point Shadow talent, so the classic baseline can take it at level 40 only if you put every talent point from 10 through 40 into Shadow. Taking Wand Specialization or other off-tree talents first delays it. Confirm the Forever calculator before relying on this breakpoint.</p>
+          <p><a href="https://www.wowhead.com/classic/guide/classes/priest/leveling-tips">Wowhead Classic Priest leveling guide (baseline)</a></p>`
+      },
+      {
+        id: "skills", label: "Skills", content: `
+          <div class="kicker">Training priorities</div><h2>Spend mana where it pays off</h2>
+          <p>Priests have many useful ranks. Train from a class trainer regularly, but prioritize upgrades to the spells you actually cast; low-rank utility may be sufficient for weaker enemies. Trainer availability and spell ranks may differ on Forever.</p>
+          <h3>Core solo kit</h3><ul>
+            <li><strong>Shadow Word: Pain:</strong> efficient damage over time when the target will live long enough.</li>
+            <li><strong>Mind Blast:</strong> immediate damage with a meaningful mana and threat cost; use selectively.</li>
+            <li><strong>Mind Flay:</strong> efficient channeled damage and a snare in Classic; train it as soon as available.</li>
+            <li><strong>Wand:</strong> free damage between casts. Keep a useful wand equipped and use <code>/cast Shoot</code>.</li>
+            <li><strong>Power Word: Shield:</strong> prevents pushback and buys time; expensive if used without a reason.</li>
+            <li><strong>Power Word: Fortitude / Inner Fire:</strong> maintain before difficult pulls; refresh after training.</li>
+          </ul>
+          <h3>Undead racial toolkit</h3><ul>
+            <li><strong>Cannibalize:</strong> recover health from nearby humanoid or undead corpses while channeling; it does not restore mana.</li>
+            <li><strong>Will of the Forsaken:</strong> use its control-break effect against fear, charm, or sleep as supported by the live ruleset.</li>
+            <li><strong>Underwater Breathing:</strong> helpful for aquatic questing; not a combat cooldown.</li>
+            <li><strong>Shadow Resistance:</strong> passive defensive value against Shadow damage.</li>
+          </ul>
+          <p>Use your trainer and in-game spellbook as the authority for exact unlock levels and Forever-specific changes.</p>`
+      },
+      {
+        id: "gear", label: "Gear", content: `
+          <div class="kicker">What to wear</div><h2>Wand first, then shadow damage</h2>
+          <p>While leveling, prioritize upgrades you can actually use and keep your wand current. A good wand lets you save mana for tougher enemies and emergencies.</p>
+          <div class="table-wrap"><table><thead><tr><th>Priority</th><th>Stat / item</th><th>Use</th></tr></thead><tbody>
+            <tr><td>1</td><td>Wand damage</td><td>Reliable, mana-free filler; replace it when the damage increase is substantial.</td></tr>
+            <tr><td>2</td><td>Shadow damage / spell power</td><td>Improves Shadow spells, especially once your rotation is Shadow-heavy.</td></tr>
+            <tr><td>3</td><td>Intellect</td><td>More mana and spell critical chance in the Classic baseline.</td></tr>
+            <tr><td>4</td><td>Stamina</td><td>More room for mistakes and safer solo pulls.</td></tr>
+            <tr><td>5</td><td>Spirit</td><td>Useful between pulls; consider the cost of the five-second rule and your actual downtime.</td></tr>
+          </tbody></table></div>
+          <h3>Practical upgrades</h3><ul>
+            <li>Complete a wand quest or buy an affordable wand upgrade when one becomes available.</li>
+            <li>Check the Auction House for inexpensive wands and shadow-damage pieces, but avoid overspending on gear you will replace quickly.</li>
+            <li>Keep a healing set or swap out of Shadowform before casting Holy healing spells.</li>
+          </ul>`
+      },
+      {
+        id: "crafting", label: "Crafting gear", content: `
+          <div class="kicker">Professions & preparation</div><h2>Useful without slowing the route</h2>
+          <p>Professions are optional for leveling. Gathering skills are simple income; choose crafting for utility or a planned level-60 goal. Exact recipes and item stats should be checked against the live Forever version.</p>
+          <ul>
+            <li><strong>Tailoring:</strong> can provide cloth gear while leveling; Shadoweave pieces are a possible later Shadow-oriented project in the Classic baseline.</li>
+            <li><strong>Enchanting:</strong> pairs with Tailoring and can add useful early enchants, but requires materials and gold.</li>
+            <li><strong>Engineering:</strong> explosives and utility can help with difficult pulls, at the cost of materials and training time.</li>
+            <li><strong>Herbalism / Alchemy:</strong> gather and craft useful potions if the route has enough herbs and you want extra sustain.</li>
+          </ul>
+          <p>Do not delay a major wand upgrade or trainer visit to grind a profession recipe. Confirm availability and requirements in-game; Forever may alter profession tuning.</p>`
+      },
+      {
+        id: "macros", label: "Macros", content: `
+          <div class="kicker">Small quality-of-life helpers</div><h2>Keep the keybinds simple</h2>
+          <p>These are optional Classic-style examples. Test them in-game; spell names and supported macro conditionals may vary by client version.</p>
+          <h3>Mouseover Power Word: Shield</h3><pre>/cast [@mouseover,help,nodead][] Power Word: Shield</pre>
+          <h3>Mouseover Dispel Magic</h3><pre>/cast [@mouseover,help,nodead][] Dispel Magic</pre>
+          <h3>Wand</h3><pre>/cast Shoot</pre>
+          <p>Mouseover macros target a friendly unit under your cursor, falling back to your current target. Avoid combining a long offensive rotation into one macro; WoW’s secure-action rules do not allow it to choose spells dynamically.</p>`
+      },
+      {
+        id: "rotation", label: "Rotation", content: `
+          <div class="kicker">Solo leveling</div><h2>Let the wand do the quiet work</h2>
+          <h3>Levels 1–19</h3><ol>
+            <li>Keep Inner Fire up; use Fortitude before a longer or dangerous stretch.</li>
+            <li>Cast Shadow Word: Pain only if the enemy will live long enough for the damage to tick.</li>
+            <li>Use Smite or Mind Blast only when the extra damage is worth the mana. Finish with your wand.</li>
+            <li>After a qualifying kill, pause briefly to benefit from Spirit Tap before the next pull.</li>
+          </ol>
+          <h3>Mind Flay to Shadowform</h3><ol>
+            <li>Open with Shadow Word: Pain on durable targets; wand weaker enemies when it is more efficient.</li>
+            <li>Use Mind Flay for damage and control. Add Mind Blast when you need a faster finish or the target is dangerous.</li>
+            <li>Use Shield when pushback or an incoming hit threatens a cast. Avoid refreshing it mechanically on every pull.</li>
+          </ol>
+          <h3>After Shadowform</h3><ol>
+            <li>Maintain Shadow Word: Pain and use Mind Flay as your steady damage spell.</li>
+            <li>Use Mind Blast selectively; be mindful of mana, cooldown, and threat.</li>
+            <li>Use Vampiric Embrace when its healing is useful, especially for sustained solo fights or groups that benefit from it.</li>
+            <li>For a real heal, move to safety and leave Shadowform first. Keep fear abilities for controlled escapes.</li>
+          </ol>
+          <p><strong>Undead sustain:</strong> use Cannibalize after combat when a valid corpse is nearby. It restores health—not mana—and breaks if you take damage.</p>`
+      },
+      {
+        id: "sources", label: "Sources", content: `
+          <div class="kicker">Reference & limits</div><h2>Verify custom rules before launch</h2>
+          <p>This draft follows the linked WoW Classic priest leveling baseline. It does not claim that a WoW Forever beta Priest talent calculator or spell table was independently verified; custom tuning may change the build and route recommendations.</p>
+          <ul>
+            <li><a href="https://www.wowhead.com/classic/guide/classes/priest/leveling-tips">Wowhead — Priest Leveling Guide & Best Leveling Spec 1–60 (Classic)</a></li>
+            <li><a href="https://m4yf4ll.github.io/wow-warlock/">Reference layout — Undead Warlock Field Guide</a></li>
+          </ul>
+          <p>Before relying on exact talent names, spell unlocks, professions, or item stats, check the WoW Forever in-game trainer, talent calculator, and current patch notes. Revisit this guide after launch tuning.</p>`
+      }
+    ];
+
+    const levelNotes = zones.map(zone => ({
+      ...zone,
+      title: `${zone.name} · Levels ${zone.from}–${zone.to}`
+    }));
+    const list = document.querySelector("#route-list");
+    const progressTrack = document.querySelector(".progress-track");
+    const saved = JSON.parse(localStorage.getItem("shadow-priest-route") || "{}");
+    let remainingOnly = false;
+
+    for (const zone of levelNotes) {
+      const details = document.createElement("details");
+      details.className = "route";
+      details.dataset.search = `${zone.title} ${zone.name} ${zone.from} ${zone.to}`.toLowerCase();
+      details.dataset.from = zone.from;
+      details.dataset.to = zone.to;
+      details.id = zone.id;
+      details.innerHTML = `
+        <summary><input class="zone-check" type="checkbox" aria-label="Mark ${zone.name} complete"><span>Route</span><strong>${zone.title}</strong><span>Expand</span></summary>
+        <div class="route-body">
+          <p><strong>Route:</strong> ${zone.route}</p>
+          <p><strong>Next talent:</strong> ${zone.talent}</p>
+          <p><strong>Train / unlock:</strong> ${zone.train}</p>
+          <p><strong>Gear focus:</strong> ${zone.gear}</p>
+          <p><strong>Play this level:</strong> ${zone.play}</p>
+        </div>`;
+      const checkbox = details.querySelector(".zone-check");
+      checkbox.checked = Boolean(saved[zone.id]);
+      checkbox.addEventListener("click", event => event.stopPropagation());
+      checkbox.addEventListener("change", updateProgress);
+      details.querySelector("summary").addEventListener("click", event => {
+        if (event.target === checkbox) event.preventDefault();
+      });
+      list.append(details);
+    }
+
+    function updateProgress() {
+      const checks = [...document.querySelectorAll(".zone-check")];
+      const completed = checks.filter(check => check.checked).length;
+      const percent = Math.round(completed / checks.length * 100);
+      const state = {};
+      checks.forEach(check => { state[check.closest("details").id] = check.checked; });
+      localStorage.setItem("shadow-priest-route", JSON.stringify(state));
+      document.querySelector("#progress-label").textContent = `${completed} / ${checks.length} zones complete`;
+      document.querySelector("#progress-percent").textContent = `${percent}%`;
+      document.querySelector(".progress-fill").style.width = `${percent}%`;
+      progressTrack.setAttribute("aria-valuenow", completed);
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.querySelector("#route-search").value.trim().toLowerCase();
+      for (const zone of list.children) {
+        const complete = zone.querySelector(".zone-check").checked;
+        zone.hidden = !zone.dataset.search.includes(query) || (remainingOnly && complete);
+      }
+    }
+
+    function setLevel(value) {
+      const level = Math.max(1, Math.min(60, Number.parseInt(value, 10) || 1));
+      document.querySelector("#level-range").value = level;
+      document.querySelector("#level-number").value = level;
+      document.querySelector("#level-status").textContent = `Level ${level}`;
+      const zone = levelNotes.find(item => level >= item.from && level <= item.to) || levelNotes.at(-1);
+      document.querySelector("#snapshot-title").textContent = zone.title;
+      document.querySelector("#snapshot-talent").textContent = zone.talent;
+      document.querySelector("#snapshot-train").textContent = zone.train;
+      document.querySelector("#snapshot-gear").textContent = zone.gear;
+      document.querySelector("#snapshot-play").textContent = zone.play;
+      for (const item of list.children) item.open = item.id === zone.id;
+    }
+
+    document.querySelector("#route-search").addEventListener("input", applyFilters);
+    document.querySelector("#remaining-toggle").addEventListener("click", event => {
+      remainingOnly = !remainingOnly;
+      event.currentTarget.textContent = remainingOnly ? "Show all zones" : "Show remaining";
+      applyFilters();
+    });
+    document.querySelector("#level-range").addEventListener("input", event => setLevel(event.currentTarget.value));
+    document.querySelector("#level-number").addEventListener("change", event => setLevel(event.currentTarget.value));
+
+    const tabList = document.querySelector('[role="tablist"]');
+    const panel = document.querySelector("#tab-content");
+    function selectTab(id, focus = false) {
+      for (const tab of tabList.querySelectorAll('[role="tab"]')) {
+        const selected = tab.id === `tab-${id}`;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      }
+      const selectedTab = tabs.find(tab => tab.id === id);
+      panel.innerHTML = selectedTab.content;
+      panel.setAttribute("aria-labelledby", `tab-${id}`);
+      if (focus) document.querySelector(`#tab-${id}`).focus();
+    }
+    for (const tab of tabs) {
+      const button = document.createElement("button");
+      button.className = "tab";
+      button.id = `tab-${tab.id}`;
+      button.type = "button";
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-controls", "tab-content");
+      button.setAttribute("aria-selected", String(tab.id === "talents"));
+      button.tabIndex = tab.id === "talents" ? 0 : -1;
+      button.textContent = tab.label;
+      button.addEventListener("click", () => selectTab(tab.id));
+      button.addEventListener("keydown", event => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const buttons = [...tabList.querySelectorAll('[role="tab"]')];
+        const current = buttons.indexOf(button);
+        const next = event.key === "Home" ? 0 : event.key === "End" ? buttons.length - 1
+          : (current + (event.key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length;
+        selectTab(tabs[next].id, true);
+      });
+      tabList.append(button);
+    }
+
+    updateProgress();
+    setLevel(1);
+    selectTab("talents");
+  </script>
+</body>
+</html>
